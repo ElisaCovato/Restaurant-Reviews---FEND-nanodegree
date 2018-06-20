@@ -212,6 +212,8 @@ nav h1 a {
   background-color: #ccc;
   height: 100%;
   width: 100%;
+  z-index: 0;
+  position:relative;
 }
 .inside #footer {
   bottom: 0;
