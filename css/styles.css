@@ -186,12 +186,17 @@ nav h1 a {
   color: #fff;
   display: inline-block;
   font-size: 10pt;
-  margin: 15px 0 0 0;
+  margin-top: auto;
   padding: 8px 30px 10px;
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
 }
+
+#restaurants-list p:last-of-type {
+  margin-bottom: 15px;
+}
+
 
 /* ====================== Restaurant Details ====================== */
 .inside header {
