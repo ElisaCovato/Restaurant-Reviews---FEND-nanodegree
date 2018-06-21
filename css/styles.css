@@ -290,3 +290,8 @@ nav h1 a {
 #restaurant-hours td {
   color: #666;
 }
+
+/* focus on objects selected */
+*:focus {
+  outline-color: #ff9000;
+}
