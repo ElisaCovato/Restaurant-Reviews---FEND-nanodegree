@@ -5,28 +5,10 @@ var newMap
 var markers = []
 
 
-
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
-  //init service worker
-  //It checks if the browser supports service workers. If it does, 
-  //then it registers  
-  //sw.js as the service worker, 
-  //and then logs to the Console. 
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/sw.js').then(function(registration) {
-            // Registration was successful
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-        }, function(err) {
-            // registration failed 
-            console.log('ServiceWorker registration failed: ', err);
-        });
-    });
-  }  
-
   //init the pages
   initMap();  
   fetchNeighborhoods();

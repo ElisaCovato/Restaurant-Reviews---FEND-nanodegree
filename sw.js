@@ -1,8 +1,9 @@
 // Adapted from https://developers.google.com/web/ilt/pwa/lab-caching-files-with-service-worker
+'use strict';
 
 // Files that we want to catch
 var filesToCache = [
-  '.',
+  '/',
   //cache css files
   'css/media-queries.css',
   'css/styles.css',
@@ -20,6 +21,16 @@ var filesToCache = [
   //cache html
   'index.html',
   'restaurant.html',
+  '/restaurant.html?id=1',
+  '/restaurant.html?id=2',
+  '/restaurant.html?id=3',
+  '/restaurant.html?id=4',
+  '/restaurant.html?id=5',
+  '/restaurant.html?id=6',
+  '/restaurant.html?id=7',
+  '/restaurant.html?id=8',
+  '/restaurant.html?id=9',
+  '/restaurant.html?id=10',  
   //cache js files
   'js/main.js',
   'js/restaurant_info.js',
@@ -40,6 +51,26 @@ self.addEventListener("install", event => {
       .open(staticCacheName)
       .then(cache => cache.addAll(filesToCache))
       .then(self.skipWaiting())
+  );
+});
+
+// The service needs to be active to receives fetches
+//we also delete any unused caches
+self.addEventListener('activate', function(event) {
+  console.log('Activating service worker...');
+  event.waitUntil(
+    caches.keys().then(function(staticCacheNames) {
+      return Promise.all(
+        staticCacheNames.filter(function(_staticCacheName) {
+          return _staticCacheName.startsWith('restaurant-') &&
+                 _staticCacheName != staticCacheName;
+        }).map(function(_staticCacheName) {
+          if (staticCacheName !== _staticCacheName) {
+            return cache.delete(_staticCacheName);
+          }
+        })
+      )
+    })
   );
 });
 
