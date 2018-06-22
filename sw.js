@@ -20,17 +20,7 @@ var filesToCache = [
   'img/10.jpg',
   //cache html
   'index.html',
-  'restaurant.html',
-  '/restaurant.html?id=1',
-  '/restaurant.html?id=2',
-  '/restaurant.html?id=3',
-  '/restaurant.html?id=4',
-  '/restaurant.html?id=5',
-  '/restaurant.html?id=6',
-  '/restaurant.html?id=7',
-  '/restaurant.html?id=8',
-  '/restaurant.html?id=9',
-  '/restaurant.html?id=10',  
+  'restaurant.html', 
   //cache js files
   'js/main.js',
   'js/restaurant_info.js',
@@ -45,12 +35,13 @@ var staticCacheName = 'pages-cache-1';
 //We create the cache and we add the files to it.
 //We wrap the event in event.waitUntil so that the event terminates
 //when all the files are added to che cache succesfully
-self.addEventListener("install", event => {
+self.addEventListener('install', function (event) {
   event.waitUntil(
-    caches
-      .open(staticCacheName)
-      .then(cache => cache.addAll(filesToCache))
-      .then(self.skipWaiting())
+    caches.open(staticCacheName)
+      .then(function (cache) {
+        console.log('Opened cache');
+        return cache.addAll(filesToCache);
+      })
   );
 });
 
@@ -59,17 +50,14 @@ self.addEventListener("install", event => {
 self.addEventListener('activate', function(event) {
   console.log('Activating service worker...');
   event.waitUntil(
-    caches.keys().then(function(staticCacheNames) {
+    caches.keys().then(function(cacheNames) {
       return Promise.all(
-        staticCacheNames.filter(function(_staticCacheName) {
-          return _staticCacheName.startsWith('restaurant-') &&
-                 _staticCacheName != staticCacheName;
-        }).map(function(_staticCacheName) {
-          if (staticCacheName !== _staticCacheName) {
-            return cache.delete(_staticCacheName);
-          }
-        })
-      )
+        cacheNames.filter(function(cacheName) {
+          return cacheName.startsWith('pages-') && cacheName != staticCacheName;
+        }).map(function(cacheName) {
+          return caches.delete(cacheName);
+        })    
+      );
     })
   );
 });
@@ -77,16 +65,31 @@ self.addEventListener('activate', function(event) {
 //We intercept requests for those files from the network
 // and respond with the files from the cache. 
 //Pages that have been visited got available offline
-self.addEventListener('fetch', function(event) {
-  console.log('Fetch event for ', event.request.url);
+self.addEventListener('fetch', (event) => {
+  console.log(event.request);
   event.respondWith(
-    caches.match(event.request).then(function(response) {
+    caches.match(event.request, {ignoreSearch: true}).then(response => {
       if (response) {
-        console.log('Found ', event.request.url, ' in cache');
+        console.log('Found in cache:', event.request.url);
         return response;
       }
       console.log('Network request for ', event.request.url);
-      return fetch(event.request);
+      return fetch(event.request).then(networkResponse => {
+        if (networkResponse.status === 404) {
+          console.log(networkResponse.status);
+          return;
+        }
+        return caches.open(staticCacheName).then(cache => {
+          cache.put(event.request.url, networkResponse.clone());
+          console.log('Fetched and cached', event.request.url);
+          return networkResponse;
+        })
+      })
+    }).catch(error => {
+      console.log('Error:', error, event.request);
+      return;
     })
   );
 });
+
+
