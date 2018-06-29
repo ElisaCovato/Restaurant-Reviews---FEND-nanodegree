@@ -14,12 +14,10 @@
     .filter-options select:last-child {
         margin-bottom: 20px;
     }
-
     p {
         font-size: 12pt;
     }
 }
-
 /*tablet screens*/
 
 @media only screen and (max-width: 1024px) {
@@ -58,7 +56,6 @@
         width: 100%;
     }
 }
-
 /*smaller tablets*/
 
 @media only screen and (max-width: 768px) {
@@ -66,8 +63,6 @@
         margin-top: 20%;
     }
 }
-
-
 /*mobile phones*/
 
 @media only screen and (max-width: 480px) {
@@ -98,15 +93,14 @@
     }
     td:first-of-type {
         font-weight: bold;
-
-}
-
-/*smaller phones*/
-@media only screen and (max-width: 330px) {
-    .inside #map {
-        margin-top: 45%;
-    }    
-    td {
-        font-size: 85%;
     }
-}
+    /*smaller phones*/
+    @media only screen and (max-width: 330px) {
+        .inside #map {
+            margin-top: 45%;
+        }
+        td {
+            font-size: 85%;
+        }
+    }
+    
