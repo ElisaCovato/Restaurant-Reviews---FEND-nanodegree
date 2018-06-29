@@ -17,7 +17,7 @@ This project has been created as part of the Udacity FEND nanodegree. The aim of
 
 ## Resources used:
 
--Leaflet
+- Leaflet
 	- [JavaScript library](https://leafletjs.com/)
 - Mapbox: 
     -  [Website](https://www.mapbox.com/)
