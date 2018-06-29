@@ -21,7 +21,7 @@ This project has been created as part of the Udacity FEND nanodegree. The aim of
 	- [JavaScript library](https://leafletjs.com/)
 - Mapbox: 
     -  [Website](https://www.mapbox.com/)
--Service Worker
+- Service Worker
 	- [Tutorial](https://developers.google.com/web/ilt/pwa/lab-caching-files-with-service-worker)
 - Udacity Resources: 
     - [Project Starter Repo](https://github.com/udacity/mws-restaurant-stage-1)
